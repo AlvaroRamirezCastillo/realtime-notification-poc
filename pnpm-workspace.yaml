@@ -1,0 +1,7 @@
+packages:
+  - client-poc
+  - server-poc
+
+allowBuilds:
+  '@firebase/util': true
+  protobufjs: true
