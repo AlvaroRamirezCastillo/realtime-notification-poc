@@ -1,19 +1,19 @@
 import express from 'express';
+import { getAuth } from 'firebase-admin/auth';
 import { getFirebaseAdminApp } from './config/firebase-admin.js';
 
 const app = express();
-const port = Number(process.env.PORT ?? 3000);
+const port = 3000;
 
-if (!Number.isInteger(port) || port < 1 || port > 65535) {
-  throw new Error('PORT debe ser un número entero entre 1 y 65535.');
-}
-
-getFirebaseAdminApp();
+const firebaseApp = getFirebaseAdminApp();
 
 app.use(express.json());
 
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'server-poc' });
+app.post('/api/realtime/token', async (_req, res) => {
+  const userId = 'user-123';
+
+  const firebaseToken = await getAuth(firebaseApp).createCustomToken(userId);
+  res.status(200).json({ firebaseToken });
 });
 
 app.listen(port, () => {
