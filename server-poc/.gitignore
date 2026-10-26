@@ -1,0 +1,18 @@
+# Variables de entorno locales.
+.env
+.env.*
+!.env.example
+
+# Archivos y directorios privados de credenciales.
+.credentials/
+credentials/
+secrets/
+firebase-admin*.json
+*firebase-adminsdk*.json
+*service-account*.json
+*service_account*.json
+*serviceAccount*.json
+*.pem
+*.key
+*.p12
+*.pfx
