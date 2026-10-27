@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { RealtimeNotificationService } from './realtime-notification.service';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [JsonPipe, RouterOutlet],
+  providers: [RealtimeNotificationService],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('client-poc');
+  protected readonly realtime = inject(RealtimeNotificationService);
 }
