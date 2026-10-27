@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { getDatabase, ServerValue } from 'firebase-admin/database';
@@ -9,6 +10,7 @@ const port = 3000;
 const firebaseApp = getFirebaseAdminApp();
 const userId = 'user-123';
 
+app.use(cors());
 app.use(express.json());
 
 app.post('/api/realtime/token', async (_req, res) => {

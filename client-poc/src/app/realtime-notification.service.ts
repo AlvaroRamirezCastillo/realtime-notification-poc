@@ -15,7 +15,7 @@ export class RealtimeNotificationService {
   private readonly app = inject(FirebaseService).app;
   private readonly auth = getAuth(this.app);
   private readonly database = getDatabase(this.app);
-  readonly notifications = signal<{ id: string; data: unknown; isNew: boolean }[]>([]);
+  readonly notifications = signal<{ id: string; data: any; isNew: boolean }[]>([]);
 
   connect(): void {
     this.http
@@ -38,9 +38,8 @@ export class RealtimeNotificationService {
       notificationsQuery,
       (snapshot) => {
         const id = snapshot.key;
-        if (this.notifications().some((item) => item.id === id)) return;
-        const notification = { id, data: snapshot.val(), isNew: true };
-        this.notifications.update((items) => ({ ...items, notification }));
+        const notification: any = { id, data: snapshot.val(), isNew: true };
+        this.notifications.update((items) => ([...items, notification]));
       },
     )
   }
