@@ -17,7 +17,7 @@ export class RealtimeNotificationService {
   private readonly database = getDatabase(this.app);
   readonly notifications = signal<{ id: string; data: unknown; isNew: boolean }[]>([]);
 
-  protected connect(): void {
+  connect(): void {
     this.http
       .post<{ firebaseToken: string }>('http://localhost:3000/api/realtime/token', {})
       .subscribe({

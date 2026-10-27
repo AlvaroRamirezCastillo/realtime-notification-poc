@@ -1,13 +1,12 @@
 <main>
   <h1>Notificaciones personales</h1>
-  <button type="button" (click)="connect()">
+  <button type="button" (click)="realtime.connect()">
     Escuchar
   </button>
 
   <ul>
     @for (notification of realtime.notifications(); track notification.id) {
       <li>
-        {{ notification.isNew ? 'Nueva' : 'Existente' }}
         <pre>{{ notification.data | json }}</pre>
       </li>
     } @empty {
@@ -15,5 +14,3 @@
     }
   </ul>
 </main>
-
-<router-outlet />
