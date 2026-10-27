@@ -1,0 +1,99 @@
+:host {
+  display: block;
+  pointer-events: auto;
+  animation: toast-enter 220ms ease-out;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 14px 18px 18px;
+  border: 1px solid #e9e6fa;
+  border-left: 4px solid #6055df;
+  border-radius: 14px;
+  color: #25293d;
+  background: #fff;
+  box-shadow: 0 8px 30px #25293d1a;
+}
+
+.icon {
+  display: grid;
+  flex: 0 0 36px;
+  place-items: center;
+  height: 36px;
+  border-radius: 11px;
+  color: #6055df;
+  background: #f0edff;
+}
+
+svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+h2 {
+  margin: 1px 0 6px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+p {
+  margin: 0;
+  color: #62677d;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+button {
+  display: grid;
+  flex: 0 0 28px;
+  place-items: center;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #73798d;
+  cursor: pointer;
+}
+
+button:hover {
+  color: #6055df;
+  background: #f0edff;
+}
+
+button:focus-visible {
+  outline: 2px solid #6055df;
+  outline-offset: 2px;
+}
+
+button svg {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}

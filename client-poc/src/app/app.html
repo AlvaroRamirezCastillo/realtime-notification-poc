@@ -1,16 +1,104 @@
-<main>
-  <h1>Notificaciones personales</h1>
-  <button type="button" (click)="realtime.connect()">
-    Escuchar
-  </button>
+<header class="header">
+  <div class="bar">
+    <div class="actions">
+      <details class="inbox">
+        <summary
+          class="bell"
+          [attr.aria-label]="
+            'Ver notificaciones: ' + realtime.notifications().length + ' recibidas'
+          "
+          title="Ver notificaciones"
+        >
+          @for (notification of realtime.notifications().slice(-1); track notification.id) {
+            <svg
+              class="bell-svg"
+              [class.ring]="notification.isNew"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+              <path d="M10 21h4M12 2V1" />
+            </svg>
+          } @empty {
+            <svg
+              class="bell-svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+              <path d="M10 21h4M12 2V1" />
+            </svg>
+          }
+          @if (realtime.notifications().length > 0) {
+            <span class="badge" aria-hidden="true">
+              {{ realtime.notifications().length > 99 ? '99+' : realtime.notifications().length }}
+            </span>
+          }
+        </summary>
 
-  <ul>
-    @for (notification of realtime.notifications(); track notification.id) {
-      <li>
-        <pre>{{ notification.data | json }}</pre>
-      </li>
-    } @empty {
-      <li>Sin notificaciones.</li>
-    }
-  </ul>
-</main>
+        <section class="panel" aria-labelledby="notification-heading">
+          <div class="panel-head">
+            <div>
+              <h2 id="notification-heading">Notificaciones</h2>
+              <p>Todas tus novedades, en un lugar.</p>
+            </div>
+            <span class="total">{{ realtime.notifications().length }}</span>
+          </div>
+
+          <ul class="list">
+            @for (
+              notification of realtime.notifications().slice().reverse();
+              track notification.id
+            ) {
+              <li class="item" [class.item--new]="notification.isNew">
+                <span class="glyph" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <div class="copy">
+                  <div class="meta">
+                    <span>{{
+                      notification.data?.type === 'TEST' ? 'Prueba' : 'Notificación'
+                    }}</span>
+                    @if (notification.isNew) {
+                      <span class="new">● Nueva</span>
+                    }
+                  </div>
+                  <p>{{ notification.data?.message ?? (notification.data | json) }}</p>
+                </div>
+              </li>
+            } @empty {
+              <li class="empty">
+                <span class="empty-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <path d="M4 5h16v14H4zM4 13h5l2 3h2l2-3h5" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <h3>Tu bandeja está tranquila</h3>
+                <p>Cuando recibas una notificación,<br />la encontrarás aquí.</p>
+              </li>
+            }
+          </ul>
+          <div class="panel-foot">Las más recientes aparecen primero</div>
+        </section>
+      </details>
+    </div>
+  </div>
+</header>
+
+<section class="toast-stack" aria-label="Notificaciones nuevas">
+  @for (toast of toasts(); track toast.id) {
+    <app-notification-toast [message]="toast.message" (closed)="dismissToast(toast.id)" />
+  }
+</section>
